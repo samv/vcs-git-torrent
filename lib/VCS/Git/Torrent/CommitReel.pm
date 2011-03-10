@@ -15,7 +15,11 @@ use VCS::Git::Torrent::Reference;
 use VCS::Git::Torrent::CommitReel::Index;
 
 has 'reel_id' =>
-	isa => "ArrayRef[VCS::Git::Torrent::sha1_hex]";
+	is => "ro",
+	isa => "ArrayRef[VCS::Git::Torrent::sha1_hex]",
+	lazy => 1,
+	default => \&get_reel_id,
+	;
 
 has 'torrent' =>
 	isa => "VCS::Git::Torrent",
@@ -57,7 +61,7 @@ defined in section I<FIXME>.
 
 =cut
 
-sub reel_id {
+sub get_reel_id {
 	my $self = shift;
 	[ $self->start
 		? ref($self->start) eq 'VCS::Git::Torrent::Reference'
